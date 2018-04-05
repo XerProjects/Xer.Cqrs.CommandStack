@@ -32,9 +32,6 @@ Setup(context =>
     });
 
     BuildParameters.Initialize(Context);
-
-    // Cleanup build artifacts.
-    DeleteDirectory(buildArtifactsDirectory, new DeleteDirectorySettings { Recursive = true });
     
     // Executed BEFORE the first task.
     Information("Xer.Cqrs.CommandStack");
@@ -50,6 +47,13 @@ Setup(context =>
     Information("Publish to myget: {0}", BuildParameters.Instance.ShouldPublishMyGet);
     Information("Publish to nuget: {0}", BuildParameters.Instance.ShouldPublishNuGet);
     Information("///////////////////////////////////////////////////////////////////////////////");
+    
+    if (DirectoryExists(buildArtifactsDirectory))
+    {
+        // Cleanup build artifacts.
+        Information($"Cleaning up {buildArtifactsDirectory} directory.");
+        DeleteDirectory(buildArtifactsDirectory, new DeleteDirectorySettings { Recursive = true });
+    }    
 });
 
 Teardown(context =>
