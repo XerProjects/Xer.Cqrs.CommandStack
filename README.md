@@ -10,9 +10,9 @@
 * [Features](#features)
 * [Installation](#installation)
 * [Getting Started](#getting-started)
-   * [Command Handling](#command-handling)
-      * [Command Handler Registration](#command-handler-registration)
-      * [Delegating Commands to Command Handlers](#delegating-commands-to-command-handlers)
+   * [Sample Command and Command Handler](#sample-command-and-command-handler)
+   * [Command Handler Registration](#command-handler-registration)
+   * [Delegating Commands to Command Handlers](#delegating-commands-to-command-handlers)
 
 # Overview
 Simple CQRS library
@@ -65,7 +65,7 @@ To install Nuget packages:
 ## Getting Started
 (Samples are in ASP.NET Core)
 
-### Command Handling
+### Sample Command and Command Handler
 
 ```csharp
 // Example command.
@@ -98,11 +98,11 @@ public class RegisterProductCommandHandler : ICommandAsyncHandler<RegisterProduc
     }
 }
 ```
-#### Command Handler Registration
+### Command Handler Registration
 
 Before we can delegate any commands, first we need to register our command handlers. There are several ways to do this:
 
-##### 1. Simple Registration (No IoC container)
+#### 1. Simple Registration (No IoC container)
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
 public void ConfigureServices(IServiceCollection services)
@@ -124,7 +124,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-##### 2. Container Registration
+#### 2. Container Registration
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
 public void ConfigureServices(IServiceCollection services)
@@ -140,7 +140,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-##### Delegating Commands To Command Handlers
+### Delegating Commands To Command Handlers
 After setting up the command delegator in the IoC container, commands can now be delegated by simply doing:
 ```csharp
 ...
