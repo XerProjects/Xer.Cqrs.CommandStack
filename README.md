@@ -39,7 +39,9 @@ This project composes of components for implementing the CQRS pattern (Command H
         [![NuGet](https://img.shields.io/nuget/v/Xer.Cqrs.Extensions.Autofac.svg)](https://www.nuget.org/packages/Xer.Cqrs.Extensions.Autofac/)
         
     * Attribute registration 
-      * achieved by marking methods with [CommandHandler] attributes.
+      * achieved by marking methods with [CommandHandler] attributes from the Xer.Cqrs.CommandStack.Extensions.Attributes package.
+      
+      [![NuGet](https://img.shields.io/nuget/v/Xer.Cqrs.Extensions.CommandStack.Attributes.svg)](https://www.nuget.org/packages/Xer.Cqrs.Extensions.CommandStack.Attributes/)
 
 ## Installation
 You can simply clone this repository, build the source, reference the dll from the project, and code away!
@@ -134,29 +136,6 @@ public void ConfigureServices(IServiceCollection services)
     // Register command handlers to the container. 
     // The AddCqrs extension method is in Xer.Cqrs.Extensions.Microsoft.DependencyInjection package.
     services.AddCqrs(typeof(RegisterProductCommandHandler).Assembly);
-    ...
-}
-```
-
-##### 3. Attribute Registration
-```csharp
-// This method gets called by the runtime. Use this method to add services to the container.
-public void ConfigureServices(IServiceCollection services)
-{            
-    ...
-    // Repository.
-    services.AddSingleton<IProductRepository, InMemoryProductRepository>();
-
-    // Register command delegator.
-    services.AddSingleton<CommandDelegator>((serviceProvider) =>
-    {
-        // Allows registration of a single message handler per message type.
-        var registration = new SingleMessageHandlerRegistration();
-        // Register methods with [CommandHandler] attribute.
-        registration.RegisterCommandHandlerAttributes(() => new RegisterProductCommandHandler(serviceProvider.GetRequiredService<IProductRepository>()));
-
-        return new CommandDelegator(registration.BuildMessageHandlerResolver());
-    });
     ...
 }
 ```
